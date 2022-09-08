@@ -17,5 +17,5 @@ export async function insert(userData: UserInsertType) {
             email: email,
             password: password
         }
-    })
+    });
 };
