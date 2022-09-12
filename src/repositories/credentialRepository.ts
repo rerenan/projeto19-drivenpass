@@ -38,3 +38,12 @@ export async function findByUserId(userId: number) {
     });
     return result;
 };
+
+export async function findById(id: number) {
+    const result = await client.credentials.findUnique({
+        where: {
+            id
+        },
+    });
+    return result;
+}

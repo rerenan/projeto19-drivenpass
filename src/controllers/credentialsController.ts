@@ -19,7 +19,12 @@ export async function getAllUserCredentials(req: Request, res: Response) {
 };
 
 export async function getUserCredential(req: Request, res: Response) {
-    
+    const {userId} = res.locals;
+    const id = Number(req.params.id);
+
+    const credential = await credentialService.getCredentialById(userId, id);
+
+    res.status(200).send(credential);
 };
 
 export async function deleteCredential(req: Request, res: Response) {
