@@ -46,4 +46,13 @@ export async function findById(id: number) {
         },
     });
     return result;
-}
+};
+
+export async function deleteById(id:number) {
+    await client.credentials.delete({
+        where:{
+            id
+        }
+    });
+    return;
+};
