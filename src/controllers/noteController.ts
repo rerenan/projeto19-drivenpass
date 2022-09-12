@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import * as noteService from "../services/noteService"
 
 export async function createNote(req: Request, res: Response) {
-    const {title, annotation} = req.body;
     const {userId} = res.locals;
     await noteService.createNote({...req.body, userId});
 
@@ -11,11 +10,14 @@ export async function createNote(req: Request, res: Response) {
 
 export async function getUserNotes(req: Request, res: Response) {
     const {userId} = res.locals;
+    const notes = await noteService.getAllUserNotes(userId);
+    res.status(200).send(notes);
 };
 
 export async function getUserNoteById(req: Request, res: Response) {
     const {userId} = res.locals;
     const {id} = req.params;
+
 };
 
 export async function deleteNote(req: Request, res: Response) {

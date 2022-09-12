@@ -14,7 +14,7 @@ export async function findByTitle(userId: number, title:string) {
     });
 
     return result;
-}
+};
 
 
 export async function insert(noteData:NoteInsertType) {
@@ -29,4 +29,13 @@ export async function insert(noteData:NoteInsertType) {
     });
 
     return;
+};
+
+export async function findByUserId(userId:number) {
+    const result = client.notes.findMany({
+        where:{
+            userId
+        }
+    });
+    return result;
 }
