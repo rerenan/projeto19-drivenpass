@@ -27,7 +27,7 @@ export async function login(userData:UserInsertType) {
     const validatePassword = bcrypt.compareSync(password, user.password);
     if(!validatePassword) throw {type: "unauthorized", message: "Email or password incorrect"};
 
-    const token = generateUserToken();
+    const token = generateUserToken(user.id);
     
     return token;
 };
