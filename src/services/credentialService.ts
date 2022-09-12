@@ -24,7 +24,7 @@ export async function createCredential(credentialData: CredentialInsertType) {
 
 };
 
-export async function getUserCredentials(userId:number) {
+export async function getAllUserCredentials(userId:number) {
     
     const credentials = await credentialRepository.findByUserId(userId);
     const decryptedPasswordCredentials = credentials.map((credential)=> {
@@ -37,7 +37,7 @@ export async function getUserCredentials(userId:number) {
     return decryptedPasswordCredentials;
 }
 
-export async function getCredentialById(userId: number ,id:number) {
+export async function getUserCredentialById(userId: number ,id:number) {
     const credential = await credentialRepository.findById(id);
     if(!credential || credential.userId !== userId) throw {type: "unauthorized", message: "Access denied"};
     const decryptedPassword = cryptr.decrypt(credential.password);
@@ -45,7 +45,7 @@ export async function getCredentialById(userId: number ,id:number) {
     return {...credential, password: decryptedPassword};
 };
 
-export async function deleteCredential(userId: number, id:number) {
+export async function deleteUserCredentialById(userId: number, id:number) {
     const credential = await credentialRepository.findById(id);
     if(!credential || credential.userId !== userId) throw {type: "unauthorized", message: "Access denied"};
 

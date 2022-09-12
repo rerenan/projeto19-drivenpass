@@ -2,7 +2,7 @@ import { Router } from "express";
 import { 
     createCredential, 
     deleteCredential, 
-    getAllUserCredentials, 
+    getUserCredentials, 
     getUserCredential 
 } 
 from "../controllers/credentialsController";
@@ -12,7 +12,7 @@ import { insertCredentialSchema } from "../schemas/credentialSchemas";
 const credentialRouter = Router();
 
 credentialRouter.post("/create",schemaValidator(insertCredentialSchema), createCredential);
-credentialRouter.get("/", getAllUserCredentials);
+credentialRouter.get("/", getUserCredentials);
 credentialRouter.get("/:id", getUserCredential);
 credentialRouter.delete("/:id", deleteCredential);
 
