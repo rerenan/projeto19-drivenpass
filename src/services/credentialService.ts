@@ -14,7 +14,7 @@ export async function createCredential(credentialData: CredentialInsertType) {
     
     const credential = await credentialRepository.findByTitle(userId, title);
 
-    if(credential) throw {type: "conflict", message: "Already exists credentials with this name"};
+    if(credential) throw {type: "conflict", message: "Already exists credential with this name"};
     
     const encryptedPassword = cryptr.encrypt(password);
 
