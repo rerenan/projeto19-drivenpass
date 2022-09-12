@@ -48,6 +48,7 @@ model cards {
   id              Int       @id @default(autoincrement())
   user            users     @relation(fields: [userId], references: [id])
   userId          Int
+  title           String
   number          BigInt
   name            String
   securityCode    Int
@@ -56,6 +57,8 @@ model cards {
   isVirtual       Boolean
   type            cardType
   createdAt       DateTime  @default(now())
+
+  @@unique([userId, title])
 }
 
 enum cardType {
