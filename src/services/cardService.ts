@@ -51,8 +51,12 @@ export async function getUserCardById(id: number, userId: number) {
     };
 };
 
-export async function deleteCardById(id: number, userId: number) {
-    
+export async function deleteUserCardById(id: number, userId: number) {
+    const card = await cardRepository.findById(id);
+    if(!card || card.userId !== userId) throw {type: "unauthorized", message: "Access denied"};
+
+    await cardRepository.deleteById(id);
+    return;
 };
 
 function decryptedPasswordCards(cards: Card[]){
