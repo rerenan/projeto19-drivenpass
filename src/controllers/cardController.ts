@@ -17,7 +17,12 @@ export async function getUserCards(req:Request, res: Response) {
 };
 
 export async function getUserCardById(req:Request, res: Response) {
-    
+    const {userId} = res.locals;
+    const id = Number(req.params.id);
+
+    const card = await cardService.getUserCardById(id, userId);
+
+    res.status(200).send(card);
 };
 
 export async function deleteCard(req:Request, res: Response) {
