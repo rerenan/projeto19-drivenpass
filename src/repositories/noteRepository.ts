@@ -39,3 +39,12 @@ export async function findByUserId(userId:number) {
     });
     return result;
 }
+
+export async function findById(id: number) {
+    const result = client.notes.findUnique({
+        where:{
+            id
+        }
+    });
+    return result;
+}

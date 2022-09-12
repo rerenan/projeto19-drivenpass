@@ -16,7 +16,11 @@ export async function getUserNotes(req: Request, res: Response) {
 
 export async function getUserNoteById(req: Request, res: Response) {
     const {userId} = res.locals;
-    const {id} = req.params;
+    const id = Number(req.params.id);
+
+    const note = await noteService.getUserNoteById(id, userId);
+
+    res.status(200).send(note);
 
 };
 
