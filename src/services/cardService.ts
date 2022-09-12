@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { cards as Card } from '@prisma/client';
 import { CardInsertType } from './../repositories/cardRepository';
 import * as cardRepository from "../repositories/cardRepository";
+import { conflictError, notFoundError, unauthorizedError } from "../handlers/errorHandler";
 
 dotenv.config();
 
@@ -14,7 +15,7 @@ export async function createCard(cardData: CardInsertType) {
     const {userId, title, password, securityCode, expirationDate} = cardData;
 
     const card = await cardRepository.findByTitle(userId, title);
-    if(card) throw {type: "conflict", message: "Already exists card with this name"};
+    if(card) throw conflictError("card");
 
     const encryptedPassword = cryptr.encrypt(password);
     const encryptedSecurityCode = cryptr.encrypt(securityCode);
@@ -38,8 +39,8 @@ export async function getAllUserCards(userId: number) {
 
 export async function getUserCardById(id: number, userId: number) {
     const card = await cardRepository.findById(id);
-
-    if(!card || card.userId !== userId) throw {type: "unauthorized", message: "Access denied"};
+    if(!card) throw notFoundError("card");
+    if(card.userId !== userId) throw unauthorizedError("card");
 
     const decryptedPassword = cryptr.decrypt(card.password);
     const decryptSecurityCode = cryptr.decrypt(card.securityCode);
@@ -53,7 +54,8 @@ export async function getUserCardById(id: number, userId: number) {
 
 export async function deleteUserCardById(id: number, userId: number) {
     const card = await cardRepository.findById(id);
-    if(!card || card.userId !== userId) throw {type: "unauthorized", message: "Access denied"};
+    if(!card) throw notFoundError("card");
+    if(card.userId !== userId) throw unauthorizedError("card");
 
     await cardRepository.deleteById(id);
     return;

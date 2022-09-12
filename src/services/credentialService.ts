@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 
 import { CredentialInsertType } from "../repositories/credentialRepository";
 import * as credentialRepository from "../repositories/credentialRepository";
+import { conflictError, notFoundError, unauthorizedError } from '../handlers/errorHandler';
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ export async function createCredential(credentialData: CredentialInsertType) {
     
     const credential = await credentialRepository.findByTitle(userId, title);
 
-    if(credential) throw {type: "conflict", message: "Already exists credential with this name"};
+    if(credential) throw conflictError("credential");
     
     const encryptedPassword = cryptr.encrypt(password);
 
@@ -33,8 +34,11 @@ export async function getAllUserCredentials(userId:number) {
 }
 
 export async function getUserCredentialById(id:number, userId: number) {
+
     const credential = await credentialRepository.findById(id);
-    if(!credential || credential.userId !== userId) throw {type: "unauthorized", message: "Access denied"};
+    if(!credential) throw notFoundError("credential");
+    if(credential.userId !== userId) throw unauthorizedError("credential");
+
     const decryptedPassword = cryptr.decrypt(credential.password);
 
     return {...credential, password: decryptedPassword};
@@ -42,7 +46,8 @@ export async function getUserCredentialById(id:number, userId: number) {
 
 export async function deleteUserCredentialById( id:number, userId: number) {
     const credential = await credentialRepository.findById(id);
-    if(!credential || credential.userId !== userId) throw {type: "unauthorized", message: "Access denied"};
+    if(!credential) throw notFoundError("credential");
+    if(credential.userId !== userId) throw unauthorizedError("credential");
 
     await credentialRepository.deleteById(id);
     return;
