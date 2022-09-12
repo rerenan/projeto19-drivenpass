@@ -3,7 +3,7 @@ import { credentials as Credendial } from "@prisma/client";
 
 export type CredentialInsertType = Omit<Credendial, "id" | "createdAt">;
 
-export async function findCredentialByTitle(userId: number, title:string) {
+export async function findByTitle(userId: number, title:string) {
     const result = await client.credentials.findUnique({
         where: {
            userId_title: {
@@ -28,4 +28,13 @@ export async function insert(credentialData: CredentialInsertType) {
         }
     });
     return;
+};
+export async function findByUserId(userId: number) {
+    
+    const result = await client.credentials.findMany({
+        where: {
+            userId
+        }
+    });
+    return result;
 };
