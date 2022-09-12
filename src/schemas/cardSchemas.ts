@@ -3,7 +3,7 @@ import { CardInsertType } from './../repositories/cardRepository';
 
 export const insertCardSchema = joi.object<CardInsertType>({
     title: joi.string().required(),
-    number: joi.string().creditCard(),
+    number: joi.string().required(),
     name: joi.string().required(),
     securityCode: joi.string().length(3).required(),
     expirationDate: joi.date().required(),

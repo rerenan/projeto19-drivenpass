@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
-
+import * as cardService from "../services/cardService"
 
 export async function createCard(req:Request, res: Response) {
-    
+    const {userId} = res.locals;
+    await cardService.createCard({...req.body, userId});
+
+    res.sendStatus(201);
 };
 
 export async function getUserCards(req:Request, res: Response) {
