@@ -26,5 +26,9 @@ export async function getUserNoteById(req: Request, res: Response) {
 
 export async function deleteNote(req: Request, res: Response) {
     const {userId} = res.locals;
-    const {id} = req.params;
+    const id = Number(req.params.id);
+
+    await noteService.deleteUserNoteById(id, userId);
+
+    res.sendStatus(200);
 };

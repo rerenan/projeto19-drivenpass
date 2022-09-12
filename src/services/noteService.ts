@@ -31,12 +31,18 @@ export async function getUserNoteById(id: number, userId:number) {
 };
 
 export async function deleteUserNoteById(id: number, userId:number) {
-    
+    const note = await noteRepository.findById(id);
+
+    if(!note || note.userId !== userId) throw {type: "unauthorized", message: "Access denied"};
+
+    await noteRepository.deleteById(id);
+    return;
 };
 
 function formatNotes(notes: Note[]) {
-    return notes.map(({userId, title, annotation})=>{
+    return notes.map(({id, userId, title, annotation})=>{
         return {
+            id,
             userId,
             title: title.trim(),
             annotation: annotation.trim()
