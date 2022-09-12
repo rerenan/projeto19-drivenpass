@@ -20,5 +20,9 @@ export async function getUserWifiById(id: number, userId: number) {
 };
 
 export async function deleteUserWifiById(id:number, userId: number) {
-    
+    const wifi = await wifiRepository.findById(id);
+    if(!wifi || wifi.userId !== userId) throw {type: "unauthorized", message: "Access denied"};
+
+    await wifiRepository.deleteById(id);
+    return;
 };
