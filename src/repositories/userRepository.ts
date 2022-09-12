@@ -1,11 +1,5 @@
 import client from "../config/db";
-
-export interface User {
-    "id": number;
-    "email": string;
-    "password": string;
-    "createdAt": Date;
-};
+import { users as User } from "@prisma/client";
 
 export type UserInsertType = Omit<User, "id" | "createdAt">;
 

@@ -3,12 +3,10 @@ import * as userRepository from "../repositories/userRepository"
 import bcrypt from "bcrypt";
 import generateUserToken from "../utils/generateToken";
 
-
-
 export async function createUser(userData:UserInsertType) {
     const {email, password} = userData;
     
-    const user = await findUserByEmail(email);
+    const user = await userRepository.findUserByEmail(email);
     if(user) throw {type: "conflict", message: "This email already used."};
     const passwordHash = bcrypt.hashSync(password, 10);
 
@@ -17,11 +15,10 @@ export async function createUser(userData:UserInsertType) {
     return;
 };
 
-
 export async function login(userData:UserInsertType) {
     const {email, password} = userData;
     
-    const user = await findUserByEmail(email);
+    const user = await userRepository.findUserByEmail(email);
     if(!user) throw {type: "unauthorized", message: "Email or password incorrect"};
 
     const validatePassword = bcrypt.compareSync(password, user.password);
@@ -30,9 +27,4 @@ export async function login(userData:UserInsertType) {
     const token = generateUserToken(user.id);
     
     return token;
-};
-
-async function findUserByEmail(email:string) {
-    const result = await userRepository.findUserByEmail(email);
-    return result;   
 };

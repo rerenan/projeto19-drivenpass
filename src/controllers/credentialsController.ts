@@ -1,8 +1,13 @@
 import { Request, Response } from "express";
+import * as credentialService from "../services/credentialService"
 
 
 export async function createCredential(req: Request, res: Response) {
-    res.status(200).send("oiiiii")
+    const {userId} = res.locals;
+    await credentialService.createCredential({...req.body, userId});
+
+    res.sendStatus(201);
+
 };
 
 export async function getAllUserCredentials(req: Request, res: Response) {
