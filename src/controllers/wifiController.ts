@@ -18,6 +18,10 @@ export async function getUserWifis(req:Request, res: Response) {
 export async function getUserWifiById(req:Request, res: Response) {
     const {userId} = res.locals;
     const id = Number(req.params.id);
+
+    const wifi = await wifiService.getUserWifiById(id, userId);
+
+    res.status(200).send(wifi);
 };
 
 export async function deleteWifi(req:Request, res: Response) {
