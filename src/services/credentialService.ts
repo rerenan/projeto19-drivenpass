@@ -1,3 +1,4 @@
+import { credentials as Credential } from '@prisma/client';
 import Cryptr from "cryptr";
 import dotenv from "dotenv";
 
@@ -27,14 +28,8 @@ export async function createCredential(credentialData: CredentialInsertType) {
 export async function getAllUserCredentials(userId:number) {
     
     const credentials = await credentialRepository.findByUserId(userId);
-    const decryptedPasswordCredentials = credentials.map((credential)=> {
-        return {
-            ...credential, 
-            password: cryptr.decrypt(credential.password)
-        }
-    });
 
-    return decryptedPasswordCredentials;
+    return decryptedPasswordCredentials(credentials);
 }
 
 export async function getUserCredentialById(userId: number ,id:number) {
@@ -53,3 +48,11 @@ export async function deleteUserCredentialById(userId: number, id:number) {
     return;
 }
 
+function decryptedPasswordCredentials(credentials: Credential[]){
+    return credentials.map((credential)=> {
+        return {
+            ...credential, 
+            password: cryptr.decrypt(credential.password)
+        }
+    });
+};

@@ -1,6 +1,7 @@
 import Cryptr from "cryptr";
 import dotenv from "dotenv";
 
+import { cards as Card } from '@prisma/client';
 import { CardInsertType } from './../repositories/cardRepository';
 import * as cardRepository from "../repositories/cardRepository";
 
@@ -29,7 +30,10 @@ export async function createCard(cardData: CardInsertType) {
 };
 
 export async function getAllUserCards(userId: number) {
-    
+
+    const cards = await cardRepository.findByUserId(userId);
+
+    return decryptedPasswordCards(cards);
 };
 
 export async function getUserCardById(id: number, userId: number) {
@@ -38,4 +42,14 @@ export async function getUserCardById(id: number, userId: number) {
 
 export async function deleteCardById(id: number, userId: number) {
     
+};
+
+function decryptedPasswordCards(cards: Card[]){
+    return cards.map((card)=> {
+        return {
+            ...card, 
+            password: cryptr.decrypt(card.password),
+            securityCode: cryptr.decrypt(card.securityCode)
+        }
+    });
 };
