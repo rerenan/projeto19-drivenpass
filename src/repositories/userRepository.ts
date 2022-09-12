@@ -1,4 +1,4 @@
-import client from "../database/db";
+import client from "../config/db";
 
 export interface User {
     "id": number;
@@ -14,8 +14,18 @@ export async function insert(userData: UserInsertType) {
 
     await client.users.create({
         data: {
-            email: email,
-            password: password
+            email,
+            password
         }
     });
+    return;
 };
+
+export async function findUserByEmail(email:string) {
+    const result = await client.users.findUnique({
+        where: {
+            email
+        }
+    });
+    return result;
+}
