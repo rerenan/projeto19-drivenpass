@@ -10,6 +10,9 @@ export async function createWifi(req:Request, res: Response) {
 
 export async function getUserWifis(req:Request, res: Response) {
     const {userId} = res.locals;
+    const wifis = await wifiService.getAllUserWifis(userId);
+
+    res.status(200).send(wifis);
 };
 
 export async function getUserWifiById(req:Request, res: Response) {

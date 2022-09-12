@@ -7,7 +7,9 @@ export async function createWifi(wifiData:WifiInsertData) {
 };
 
 export async function getAllUserWifis(userId: number) {
-    
+    const wifi = await wifiRepository.findByUserId(userId);
+
+    return wifi;
 };
 
 export async function getUserWifiById(id: number, userId: number) {
