@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
+import * as wifiService from "../services/wifiService"
 
 export async function createWifi(req:Request, res: Response) {
     const {userId} = res.locals;
+    await wifiService.createWifi({...req.body, userId});
+
+    res.sendStatus(201);
 };
 
 export async function getUserWifis(req:Request, res: Response) {
