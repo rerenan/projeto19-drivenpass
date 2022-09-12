@@ -18,7 +18,7 @@ export async function getUserCredentials(req: Request, res: Response) {
     res.status(200).send(credentials);
 };
 
-export async function getUserCredential(req: Request, res: Response) {
+export async function getUserCredentialById(req: Request, res: Response) {
     const {userId} = res.locals;
     const id = Number(req.params.id);
 

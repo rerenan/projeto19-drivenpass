@@ -49,9 +49,9 @@ model cards {
   user            users     @relation(fields: [userId], references: [id])
   userId          Int
   title           String
-  number          String
+  number          String    @unique
   name            String
-  securityCode    Int
+  securityCode    String
   expirationDate  DateTime
   password        String
   isVirtual       Boolean

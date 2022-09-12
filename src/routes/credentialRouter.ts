@@ -3,7 +3,7 @@ import {
     createCredential, 
     deleteCredential, 
     getUserCredentials, 
-    getUserCredential 
+    getUserCredentialById
 } 
 from "../controllers/credentialsController";
 import schemaValidator from "../middlewares/schemaValidator";
@@ -13,7 +13,7 @@ const credentialRouter = Router();
 
 credentialRouter.post("/create",schemaValidator(insertCredentialSchema), createCredential);
 credentialRouter.get("/", getUserCredentials);
-credentialRouter.get("/:id", getUserCredential);
+credentialRouter.get("/:id", getUserCredentialById);
 credentialRouter.delete("/:id", deleteCredential);
 
 export default credentialRouter;
